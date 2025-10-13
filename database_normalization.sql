@@ -96,7 +96,7 @@ DROP COLUMN name,
 DROP COLUMN games;
 
 
---Adds foreign key constraints to **results**, linking athlete_fk to athletes.athlete_id
+--Adds foreign key constraints to results, linking athlete_fk to athletes.athlete_id
 --and game_fk to games.game_id.
 ALTER TABLE results
 ADD CONSTRAINT fk_athlete
