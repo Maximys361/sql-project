@@ -148,5 +148,6 @@ LATERAL (
 
 
 --Check the new table for atomic values.
-select * from athletes_cleared;
+SELECT *
+FROM athletes_cleared;
 
