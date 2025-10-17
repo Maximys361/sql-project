@@ -6,11 +6,14 @@ SELECT * FROM games;
 
 SELECT * FROM noc_regions;
 
+
+-- Analyze athletes' height statistics
 SELECT MIN(HEIGHT) AS min_height
 	 , CEILING(AVG(HEIGHT)) AS avg_height
 	 , MAX(HEIGHT) AS max_height
 FROM athletes_cleared;
 
+-- Analyze athletes' who won medals in London 2012
 SELECT DISTINCT
 	  ac.first_name
 	, ac.last_name
@@ -27,13 +30,15 @@ WHERE ac.athlete_id IN(
 )
 LIMIT 10;
 
+-- Count medals by type
 SELECT
     SUM(CASE WHEN medal = 'Gold' THEN 1 ELSE 0 END) AS cnt_gold_medal,
     SUM(CASE WHEN medal = 'Silver' THEN 1 ELSE 0 END) AS cnt_silver_medal,
-    SUM(CASE WHEN medal = 'Bronze' THEN 1 ELSE 0 END) AS cnt_bronze_medal
+    SUM(CASE WHEN medal = 'Bronze' THEN 1 ELSE 0 END) AS cnt_bronze_medal,
+    SUM(CASE WHEN medal = '0' THEN 1 ELSE 0 END) AS cnt_no_medal
 FROM results;
 
-
+-- Count athletes from countries that no longer exist
 SELECT team, COUNT(*) AS athletes_count
 FROM athletes_cleared
 WHERE team IN (
@@ -52,6 +57,7 @@ WHERE team IN (
 GROUP BY team
 ORDER BY athletes_count DESC;
 
+-- Top 20 teams by number of gold medals
 SELECT 
 	 COUNT(*) as cnt_medal
 	 , ac.team
@@ -63,6 +69,8 @@ GROUP BY ac.team
 ORDER BY cnt_medal desc
 LIMIT 20;
 
+
+-- Top 10 Ukrainian athletes by number of gold medals
 SELECT 
 	  ac.first_name
 	, ac.last_name
@@ -77,7 +85,7 @@ GROUP BY athlete_id, r.sport
 ORDER BY cnt_gold_medal desc
 LIMIT 10;
 
-
+-- Top 10 athletes with most gold medals in 21st century
 WITH gold_medalist AS (
     SELECT
           r.athlete_fk
@@ -101,7 +109,7 @@ GROUP BY ac.athlete_id, ac.first_name, ac.last_name, ac.team, gm.sport
 ORDER BY total_gold_medals DESC
 LIMIT 10;
 
-
+-- Top 10 teams by number of gold medals in Volleyball
 SELECT
 	  ac.team
 	, COUNT(r.medal) as cnt_gold
